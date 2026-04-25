@@ -89,7 +89,6 @@ function renderTable(filter) {
 
   filteredData.forEach(scan => {
     const tr = document.createElement('tr');
-    
     const date = new Date(scan.timestamp).toLocaleString();
     const badgeClass = scan.riskLevel === 'HIGH' ? 'badge-high' : scan.riskLevel === 'MEDIUM' ? 'badge-medium' : 'badge-low';
     const findingsCount = scan.findings ? scan.findings.length : 0;
@@ -105,7 +104,6 @@ function renderTable(filter) {
       <td>${findingsCount}</td>
       <td><button class="btn btn-secondary view-report-btn" data-id="${scan._id}">View Report</button></td>
     `;
-    
     tbody.appendChild(tr);
   });
 
@@ -121,25 +119,16 @@ function renderTable(filter) {
 function openReportModal(scan) {
   const modalBody = document.getElementById('modal-body');
   const report = scan.fullReport;
-  
   const scoreClass = report.risk_score >= 75 ? 'pf-score-high' : report.risk_score >= 40 ? 'pf-score-medium' : 'pf-score-low';
   const badgeClass = report.risk_score >= 75 ? 'badge-high' : report.risk_score >= 40 ? 'badge-medium' : 'badge-low';
   
-  let findingsHtml = '';
-  if (report.findings && report.findings.length > 0) {
-    findingsHtml = report.findings.map(f => {
-      const icon = f.severity === 'RED' ? '🔴' : f.severity === 'YELLOW' ? '🟡' : '🟢';
-      return `
-        <div class="pf-finding-card">
-          <div class="pf-finding-header">${icon} ${f.type}</div>
-          <div class="pf-finding-detail">${f.explanation}</div>
-          ${f.malicious_phrase ? `<div class="pf-malicious-text">${escapeHtml(f.malicious_phrase)}</div>` : ''}
-        </div>
-      `;
-    }).join('');
-  } else {
-    findingsHtml = `<div style="text-align: center; color: #8b949e; padding: 20px;">No threats detected</div>`;
-  }
+  let findingsHtml = report.findings?.length > 0 ? report.findings.map(f => `
+    <div class="pf-finding-card">
+      <div class="pf-finding-header">${f.severity === 'RED' ? '🔴' : '🟡'} ${f.type}</div>
+      <div class="pf-finding-detail">${f.explanation}</div>
+      ${f.malicious_phrase ? `<div class="pf-malicious-text">${escapeHtml(f.malicious_phrase)}</div>` : ''}
+    </div>
+  `).join('') : '<div style="text-align: center; color: #8b949e; padding: 20px;">No threats detected</div>';
 
   modalBody.innerHTML = `
     <div class="pf-header">
@@ -150,21 +139,11 @@ function openReportModal(scan) {
       </div>
     </div>
     <div class="pf-verdict">${escapeHtml(report.verdict)}</div>
-    <div class="pf-findings">
-      ${findingsHtml}
-    </div>
+    <div class="pf-findings">${findingsHtml}</div>
   `;
-
   document.getElementById('report-modal').style.display = 'block';
 }
 
 function escapeHtml(unsafe) {
-    if (!unsafe) return '';
-    return unsafe
-         .toString()
-         .replace(/&/g, "&amp;")
-         .replace(/</g, "&lt;")
-         .replace(/>/g, "&gt;")
-         .replace(/"/g, "&quot;")
-         .replace(/'/g, "&#039;");
+    return unsafe?.toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;") || '';
 }

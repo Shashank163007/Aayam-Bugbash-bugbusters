@@ -4,30 +4,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnDashboard = document.getElementById('btn-dashboard');
   const btnLogout = document.getElementById('btn-logout');
 
-  // Load state
   chrome.storage.local.get(['autoScan', 'token'], (result) => {
-    toggleScan.checked = result.autoScan !== false; // Default true
+    toggleScan.checked = result.autoScan !== false;
     updateStatusText(toggleScan.checked);
-    
-    if (result.token) {
-      btnLogout.style.display = 'block';
-    }
+    if (result.token) btnLogout.style.display = 'block';
   });
 
   toggleScan.addEventListener('change', (e) => {
-    const isChecked = e.target.checked;
-    chrome.storage.local.set({ autoScan: isChecked });
-    updateStatusText(isChecked);
+    chrome.storage.local.set({ autoScan: e.target.checked });
+    updateStatusText(e.target.checked);
   });
 
   function updateStatusText(isActive) {
-    if (isActive) {
-      statusText.textContent = 'Scanner is Active';
-      statusText.style.color = '#00cc44';
-    } else {
-      statusText.textContent = 'Scanner is Paused';
-      statusText.style.color = '#8b949e';
-    }
+    statusText.textContent = isActive ? 'Scanner is Active' : 'Scanner is Paused';
+    statusText.style.color = isActive ? '#00cc44' : '#8b949e';
   }
 
   btnDashboard.addEventListener('click', () => {

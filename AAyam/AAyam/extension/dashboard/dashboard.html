@@ -19,26 +19,12 @@
         <button id="btn-logout" class="btn btn-secondary">Logout</button>
       </div>
     </header>
-
     <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-label">Total Scans</div>
-        <div class="stat-value" id="stat-total">-</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">High Risk</div>
-        <div class="stat-value text-red" id="stat-high">-</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Medium Risk</div>
-        <div class="stat-value text-amber" id="stat-medium">-</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Safe</div>
-        <div class="stat-value text-green" id="stat-low">-</div>
-      </div>
+      <div class="stat-card"><div class="stat-label">Total Scans</div><div class="stat-value" id="stat-total">-</div></div>
+      <div class="stat-card"><div class="stat-label">High Risk</div><div class="stat-value text-red" id="stat-high">-</div></div>
+      <div class="stat-card"><div class="stat-label">Medium Risk</div><div class="stat-value text-amber" id="stat-medium">-</div></div>
+      <div class="stat-card"><div class="stat-label">Safe</div><div class="stat-value text-green" id="stat-low">-</div></div>
     </div>
-
     <div class="filters">
       <button class="filter-btn active" data-filter="all">All</button>
       <button class="filter-btn" data-filter="high">High</button>
@@ -47,35 +33,17 @@
       <div style="flex-grow: 1;"></div>
       <button id="btn-clear" class="btn btn-danger">Clear History</button>
     </div>
-
     <div class="table-container">
       <table id="scans-table">
-        <thead>
-          <tr>
-            <th>Date/Time</th>
-            <th>Sender</th>
-            <th>Subject</th>
-            <th>Risk Level</th>
-            <th>Findings</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody id="scans-tbody">
-          </tbody>
+        <thead><tr><th>Date/Time</th><th>Sender</th><th>Subject</th><th>Risk Level</th><th>Findings</th><th>Action</th></tr></thead>
+        <tbody id="scans-tbody"></tbody>
       </table>
-      <div id="empty-state" class="empty-state" style="display:none;">
-        No scans found.
-      </div>
+      <div id="empty-state" class="empty-state" style="display:none;">No scans found.</div>
     </div>
   </div>
-
   <div id="report-modal" class="modal">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <div id="modal-body"></div>
-    </div>
+    <div class="modal-content"><span class="close-modal">&times;</span><div id="modal-body"></div></div>
   </div>
-
   <script src="dashboard.js"></script>
 </body>
 </html>
